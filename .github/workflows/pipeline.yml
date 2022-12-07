@@ -1,0 +1,20 @@
+name: Go Pipeline
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+     - uses: actions/checkout@v2
+     - run: go build ./go-app/src/apiserver.go
+     - run: go test ./go-app/src/apiserver.go
+  
+  dockerize:
+    runs-on: ubuntu-latest
+    steps:
+     - uses: actions/checkout@v2
+     - run: docker build -t apiserver-image .
+     
+  deploy:
+  needs: [build, dockerize]
