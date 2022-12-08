@@ -5,7 +5,8 @@ ADD go-app/src /app
 # set the working directory to /app
 WORKDIR /app
 # compile the application and call it app
-RUN go build -o app
+RUN go build apiserver.go
+RUN mv apiserver app
 EXPOSE 8080
 # start the application when the container starts
 CMD ["./app"]
