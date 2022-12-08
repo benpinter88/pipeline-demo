@@ -14,7 +14,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
      - uses: actions/checkout@v2
-     - run: docker build -t apiserver-image .
+     - run: docker build -t benpinter88/apiserver-image:latest .
      
   deploy:
-  needs: [build, dockerize]
+    needs: [build, dockerize]
+    runs-on: ubuntu-latest
+    steps:
+     - uses: actions/checkout@v2
+     - run: echo "${{ secrets.DOCKER_USERNAME }}" | docker login -u "${{ secrets.DOCKER_PASSWORD }}" --password-stdin
+     - run: docker push benpinter88/apiserver-image:latest
